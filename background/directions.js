@@ -15,8 +15,6 @@ function getDirectionsToOfficeFrom(latlng, sendResponse) {
       directionsResult = result;
       let directionsResp = {
         'duration': result.routes[0].legs[0].duration.text,
-        'start': result.routes[0].legs[0].start_address,
-        'end': result.routes[0].legs[0].end_address,
         'gmapsRes': result
       };
 
