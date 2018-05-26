@@ -1,25 +1,40 @@
 'use strict';
 
-function getDirectionsMultiple(latlngs, sendResponse) {
-  let latlngsResults = {}
+function getDirectionsMultiple(addresses, sendResponse) {
+  let addressesResults = {}
   function saveResult(result) {
     console.log("Saving result for latlng: " + JSON.stringify(result.origin));
-    latlngsResults[result.origin] = result.duration;
+    addressesResults[result.origin] = result.duration;
   }
 
-  latlngs.forEach(function(latlng) {
-    console.log("Computing directions for latlng: " + JSON.stringify(latlng));
-    getDirectionsCoords(latlng, saveResult);
-  });
+  function computeDirections(i) {
+    if (i >= addresses.length) { return; }
+    console.log("Computing directions for address: " + JSON.stringify(addresses[i]));
+    getDirectionsString(addresses[i], saveResult);
+    setTimeout(function() { computeDirections(i+1); }, 400);
+  }
+  computeDirections(0);
+
+  //addresses.forEach(function(address) {
+  //  console.log("Computing directions for address: " + JSON.stringify(address));
+  //  setTimeout(function() { getDirectionsString(address, saveResult); }, 1000);
+  //});
 
   function waitForDirections() {
-    if (Object.keys(latlngsResults).length != latlngs.length) {
+    if (Object.keys(addressesResults).length != addresses.length) {
       console.log("Waiting again...");
       setTimeout(waitForDirections, 100);
     } else {
       console.log("All directions computed: ");
-      console.log(latlngsResults);
-      return;
+      console.log(addressesResults);
+      let resp = {
+        'durations': addresses.map(function(address) {
+          return addressesResults[address]
+        }),
+        'gmapsRes': addressesResults
+      }
+      console.log(resp);
+      sendResponse(resp);
     }
   }
 
@@ -47,20 +62,27 @@ function getDirectionsCoords(latlng, sendResponse) {
 }
 
 function getDirections(request, sendResponse) {
+  let directionsResp = {
+    'origin': request.origin,
+    'dest': mongoLatLng
+  };
+
   directions.route(request, function(result, status) {
     if (status == 'OK') {
       console.log("Got a response from directions API:");
       console.log(result);
       directionsResult = result;
-      let directionsResp = {
-        'duration': result.routes[0].legs[0].duration.text,
-        'origin': request.origin,
-        'dest': mongoLatLng,
-        'gmapsRes': result
-      };
-
-      sendResponse(directionsResp);
+      directionsResp.duration = result.routes[0].legs[0].duration.text;
+      directionsResp.gmapsRes = result;
+    } else {
+      console.log("Failed to get directions due to: '" + status + "'.");
+      if (status == 'ZERO_RESULTS') {
+        console.log("ZERO results found! Giving a nullish resp.");
+        directionsResp.duration = 'N/A';
+        directionsResp.gmapsRes = null;
+      }
     }
+    sendResponse(directionsResp);
   });
 }
 

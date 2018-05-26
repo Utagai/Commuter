@@ -34,7 +34,7 @@ function injectCommuteTimes(response) {
     let articleTitles = extractArticleTitles();
     for (let i = 0; i < durations.length; i++) {
       let titleTag = findTitleTag(articleTitles[i]);
-      titleTag.innerText = "(" + durations[i] + " mins) " + titleTag.innerText;
+      titleTag.innerText = "(" + durations[i] + ") " + titleTag.innerText;
       console.log("Title tag:");
       console.log(titleTag);
     }

@@ -42,7 +42,7 @@ function processBuildingAddrMsg(request, sender, sendResponse, address) {
         let latlng = getLatLngFromGeocodeResult(address, results, status);
         let geocodeMsg = createGeocodeMsg(latlng);
         console.log(geocodeMsg);
-        getDirectionsToOfficeFrom(latlng, sendResponse);
+        getDirectionsCoords(latlng, sendResponse);
       }
     );
   } else { /* Ignore this message. */ }
@@ -50,12 +50,13 @@ function processBuildingAddrMsg(request, sender, sendResponse, address) {
 
 function processListingsMsg(request, sender, sendResponse, addresses) {
   if (addresses.length > 0) {
+    getDirectionsMultiple(addresses, sendResponse);
     let numArticles = addresses.length;
-    sendResponse({
-      'durations': [...Array(numArticles).keys()].map(function() {
-        return Math.floor(Math.random() * 50)
-      }),
-      'gmapsRes': {}
-    });
+    //sendResponse({
+    //  'durations': [...Array(numArticles).keys()].map(function() {
+    //    return Math.floor(Math.random() * 50)
+    //  }),
+    //  'gmapsRes': {}
+    //});
   } else { /* Ignore this message. */ }
 }
