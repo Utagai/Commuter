@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log("Got a request from somewhere:");
     console.log(request);
-    dispatchMessage(request, sender, sendResponse);
+    return dispatchMessage(request, sender, sendResponse);
   }
 );
 

@@ -4,6 +4,8 @@
  * @author may
  */
 
+var infos = document.getElementsByClassName("backend_data BuildingInfo-item");
+
 function draw_duration(duration_resp) {
   let duration = duration_resp.duration;
   console.log("Duration of the trip is: " + duration);
@@ -16,13 +18,17 @@ function report(buildingAddress, callback) {
       'buildingAddress': buildingAddress
     },
     function(response) {
-      console.log(response);
+      if (response) {
+        console.log(response);
+        let duration = response.duration;
+        console.log("Trip duration: " + duration);
+        infos[0].innerText = infos[0].innerText + " (" + duration + ")";
+      }
     }
   );
 }
 
 function run() {
-  let infos = document.getElementsByClassName("backend_data BuildingInfo-item");
   console.log(infos);
 
   if (infos.length > 0) {
