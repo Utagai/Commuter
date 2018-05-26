@@ -20,7 +20,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.streeteasy.com/*"],
-      "js": ["content_scripts/streeteasy.js"]
+      "js": ["util/gmaps_util.js", "content_scripts/streeteasy.js"]
     },
     {
       "matches": ["https://*.apartments.com/*"],

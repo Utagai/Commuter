@@ -1,6 +1,8 @@
 'use strict';
 
 var mongoLatLng = { lat: 40.7627479, lng: -73.9872048 };
+var mongoAddr = "W 50th St, New York, NY";
+var mongoState = "NY";
 
 function loadMapsAPI() {
   var script = document.createElement( 'script' );

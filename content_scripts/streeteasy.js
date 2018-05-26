@@ -65,7 +65,7 @@ function extractBuildingAddresses() {
     + "items item-rows listings");
   if (listingsContainer.length == 0) { return []; }
   return extractArticleTitles().map(function(articleTitle) {
-    return findTitleTag(articleTitle).innerText;
+    return findTitleTag(articleTitle).innerText + ", " + mongoState;
   });
 }
 

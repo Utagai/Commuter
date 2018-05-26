@@ -11,7 +11,7 @@ function getDirectionsMultiple(addresses, sendResponse) {
     if (i >= addresses.length) { return; }
     console.log("Computing directions for address: " + JSON.stringify(addresses[i]));
     geocodeAddress(addresses[i], saveResult);
-    setTimeout(function() { computeDirections(i+1); }, 400);
+    setTimeout(function() { computeDirections(i+1); }, 350);
   }
   computeDirections(0);
 
