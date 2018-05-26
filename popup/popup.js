@@ -68,10 +68,7 @@ function potentiallyUpdateMap() {
   );
 }
 
-function initGmaps() {
-  console.log("Initializing map in popup @ " + new Date().getTime());
-  geocoder = new google.maps.Geocoder();
-
+function initMaps() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: mongoLatLng,
     zoom: kNoPathZoom
@@ -85,6 +82,9 @@ function initGmaps() {
     }
   );
 
+}
+
+function initDisplay() {
   directionsDisplay = new google.maps.DirectionsRenderer();
   directionsDisplay.setMap(map);
   directionsDisplay.setRouteIndex(0);
@@ -94,6 +94,15 @@ function initGmaps() {
     'suppressMarkers': true,
     'suppressInfoWindows': true
   });
+}
+
+function initGmaps() {
+  console.log("Initializing map in popup @ " + new Date().getTime());
+  geocoder = new google.maps.Geocoder();
+
+  initMaps();
+  initDisplay();
+
   potentiallyUpdateMap();
 }
 
