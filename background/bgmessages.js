@@ -44,7 +44,7 @@ function processBuildingAddrMsg(request, sender, sendResponse, address) {
 function processListingsMsg(request, sender, sendResponse, addresses) {
   if (addresses.length > 0) {
     getDirectionsMultiple(addresses, sendResponse);
-    let numArticles = addresses.length;
+    //let numArticles = addresses.length;
     //sendResponse({
     //  'durations': [...Array(numArticles).keys()].map(function() {
     //    return Math.floor(Math.random() * 50)

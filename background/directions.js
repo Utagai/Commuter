@@ -4,21 +4,16 @@ function getDirectionsMultiple(addresses, sendResponse) {
   let addressesResults = {}
   function saveResult(result) {
     console.log("Saving result for latlng: " + JSON.stringify(result.origin));
-    addressesResults[result.origin] = result.duration;
+    addressesResults[result.address] = result.duration;
   }
 
   function computeDirections(i) {
     if (i >= addresses.length) { return; }
     console.log("Computing directions for address: " + JSON.stringify(addresses[i]));
-    getDirectionsString(addresses[i], saveResult);
+    geocodeAddress(addresses[i], saveResult);
     setTimeout(function() { computeDirections(i+1); }, 400);
   }
   computeDirections(0);
-
-  //addresses.forEach(function(address) {
-  //  console.log("Computing directions for address: " + JSON.stringify(address));
-  //  setTimeout(function() { getDirectionsString(address, saveResult); }, 1000);
-  //});
 
   function waitForDirections() {
     if (Object.keys(addressesResults).length != addresses.length) {
@@ -41,29 +36,20 @@ function getDirectionsMultiple(addresses, sendResponse) {
   waitForDirections();
 }
 
-function getDirectionsString(address, sendResponse) {
-  var request = {
-    origin: address,
-    destination: new google.maps.LatLng(mongoLatLng.lat, mongoLatLng.lng),
-    travelMode: 'TRANSIT'
-  };
-
-  getDirections(request, sendResponse);
-}
-
-function getDirectionsCoords(latlng, sendResponse) {
+function getDirectionsCoords(latlng, ogAddress, sendResponse) {
   var request = {
     origin: new google.maps.LatLng(latlng.lat, latlng.lng),
     destination: new google.maps.LatLng(mongoLatLng.lat, mongoLatLng.lng),
     travelMode: 'TRANSIT'
   };
 
-  getDirections(request, sendResponse);
+  getDirections(request, ogAddress, sendResponse);
 }
 
-function getDirections(request, sendResponse) {
+function getDirections(request, address, sendResponse) {
   let directionsResp = {
     'origin': request.origin,
+    'address': address,
     'dest': mongoLatLng
   };
 
@@ -116,7 +102,7 @@ function geocodeAddress(address, sendResponse) {
         let latlng = getLatLngFromGeocodeResult(address, results, status);
         let geocodeMsg = createGeocodeMsg(latlng);
         console.log(geocodeMsg);
-        getDirectionsCoords(latlng, sendResponse);
+        getDirectionsCoords(latlng, address, sendResponse);
       }
   );
 }
