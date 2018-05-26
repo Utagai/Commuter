@@ -28,11 +28,34 @@ function getAvgLatLng(coords) {
     return coord.lng;
   });
 
-  console.log("Lats: " + JSON.stringify(lats));
-  console.log("Lngs: " + lngs);
-
   return new google.maps.LatLng(avg(lats), avg(lngs));
-  //return { 'lat': avg(lats), 'lng': avg(lngs) };
+}
+
+function refocusMap(pathCoords) {
+  let avgLatLng = getAvgLatLng(pathCoords);
+  map.setCenter(avgLatLng);
+  map.setZoom(kPathZoom);
+}
+
+function drawPolyline(coords) {
+  console.log(coords);
+  let directionsPath = new google.maps.Polyline({
+      path: coords,
+      geodesic: true,
+      strokeColor: '#ffb5cc',
+      strokeOpacity: 0.7,
+      strokeWeight: 5
+  });
+
+  directionsPath.setMap(map);
+}
+
+function updateMap(response) {
+  console.log(response);
+  if (!response) { return; } // No response given.
+  let directionsCoords = response.routes[0].overview_path;
+  drawPolyline(directionsCoords);
+  refocusMap(directionsCoords);
 }
 
 function potentiallyUpdateMap() {
@@ -41,22 +64,7 @@ function potentiallyUpdateMap() {
     {
       'source': 'popup'
     },
-    function(response) {
-      console.log(response);
-      let directionsCoords = response.routes[0].overview_path;
-      console.log(directionsCoords);
-      let directionsPath = new google.maps.Polyline({
-          path: directionsCoords,
-          geodesic: true,
-          strokeColor: '#ffb5cc',
-          strokeOpacity: 0.7,
-          strokeWeight: 5
-      });
-      let avgLatLng = getAvgLatLng(directionsCoords);
-      map.setCenter(avgLatLng);
-      map.setZoom(kPathZoom);
-      directionsPath.setMap(map);
-    }
+    updateMap
   );
 }
 
