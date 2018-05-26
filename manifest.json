@@ -20,15 +20,15 @@
   "content_scripts": [
     {
       "matches": ["https://*.streeteasy.com/*"],
-      "js": ["third_party/jquery-3.3.1.js", "content_scripts/streeteasy.js"]
+      "js": ["content_scripts/streeteasy.js"]
     },
     {
       "matches": ["https://*.apartments.com/*"],
-      "js": ["third_party/jquery-3.3.1.js", "content_scripts/apartments.js"]
+      "js": ["content_scripts/apartments.js"]
     },
     {
       "matches": ["https://*.zillow.com/*"],
-      "js": ["third_party/jquery-3.3.1.js", "content_scripts/zillow.js"]
+      "js": ["content_scripts/zillow.js"]
     }
   ],
 
