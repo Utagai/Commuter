@@ -29,12 +29,17 @@ function processAddressMsg(request, sender, sendResponse, address) {
         let latlng = getLatLngFromGeocodeResult(address, results, status);
         let geocodeMsg = createGeocodeMsg(latlng);
         console.log(geocodeMsg);
+        getDirectionsToOfficeFrom(latlng);
         sendResponse({
           duration: geocodeMsg
         });
       }
     );
   } else { /* Ignore this message. */ }
+}
+
+function getDirectionsToOfficeFrom(latlng) {
+  console.log("Mongo latlng: " + mongo_latlng);
 }
 
 function getLatLngFromGeocodeResult(ogAddress, results, status) {

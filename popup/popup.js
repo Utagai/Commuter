@@ -2,7 +2,6 @@
 
 var geocoder;
 var map;
-var mongo_latlng = { lat: 40.7627479, lng: -73.9872048 }
 var mongo_icon_url = "https://static.filehorse.com/icons/"
   + "developer-tools/mongodb-icon-32.png";
 

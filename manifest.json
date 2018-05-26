@@ -10,7 +10,7 @@
       "background/bgmessages.js",
       "background/bgmaps.js",
       "background/background.js",
-      "util/load_gmaps.js",
+      "util/gmaps_util.js",
       "keys.js"
     ],
     "persistent": false
