@@ -109,3 +109,14 @@ function createGeocodeMsg(latlng) {
       + " failed due to '" + status + "'."
   }
 }
+
+function geocodeAddress(address, sendResponse) {
+  geocoder.geocode({ 'address': address },
+      function(results, status) {
+        let latlng = getLatLngFromGeocodeResult(address, results, status);
+        let geocodeMsg = createGeocodeMsg(latlng);
+        console.log(geocodeMsg);
+        getDirectionsCoords(latlng, sendResponse);
+      }
+  );
+}

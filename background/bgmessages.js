@@ -37,14 +37,7 @@ function dispatchMessage(request, sender, sendResponse) {
 
 function processBuildingAddrMsg(request, sender, sendResponse, address) {
   if (address) {
-    geocoder.geocode({ 'address': address },
-      function(results, status) {
-        let latlng = getLatLngFromGeocodeResult(address, results, status);
-        let geocodeMsg = createGeocodeMsg(latlng);
-        console.log(geocodeMsg);
-        getDirectionsCoords(latlng, sendResponse);
-      }
-    );
+    geocodeAddress(address, sendResponse);
   } else { /* Ignore this message. */ }
 }
 
