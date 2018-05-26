@@ -4,11 +4,20 @@
  * @author may
  */
 
-var infos = document.getElementsByClassName("backend_data BuildingInfo-item");
-
-function draw_duration(duration_resp) {
+function drawDuration(duration_resp) {
   let duration = duration_resp.duration;
   console.log("Duration of the trip is: " + duration);
+}
+
+function injectCommuteTime(response) {
+  if (response) {
+    console.log(response);
+    let duration = response.duration;
+    let titleElems = document.getElementsByClassName('incognito');
+    for (let i = 0; i < titleElems.length; i++) {
+      titleElems[i].innerText = titleElems[i].innerText + " (" + duration + ")";
+    }
+  }
 }
 
 function report(buildingAddress, callback) {
@@ -17,18 +26,12 @@ function report(buildingAddress, callback) {
       'source': 'streateasy',
       'buildingAddress': buildingAddress
     },
-    function(response) {
-      if (response) {
-        console.log(response);
-        let duration = response.duration;
-        console.log("Trip duration: " + duration);
-        infos[0].innerText = infos[0].innerText + " (" + duration + ")";
-      }
-    }
+    injectCommuteTime
   );
 }
 
 function run() {
+  let infos = document.getElementsByClassName("backend_data BuildingInfo-item");
   console.log(infos);
 
   if (infos.length > 0) {
@@ -37,7 +40,7 @@ function run() {
     console.log("Building info found: " + buildingAddress);
     // If we got here, we are on an apartments page or something, and found an
     // address to give.
-    report(buildingAddress, draw_duration);
+    report(buildingAddress, drawDuration);
   } else {
     console.log("No building info found on page.");
     report(null, function() {});
