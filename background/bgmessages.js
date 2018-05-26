@@ -15,18 +15,19 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     console.log("Sender:")
     console.log(sender);
+    dispatchMessage(request, sender, sendResponse);
+  }
 );
 
 function dispatchMessage(request, sender, sendResponse) {
-    if (request.source == 'popup') {
-      console.log("Here is the current directions Result: ");
-      console.log(directionsResult);
-      sendResponse(directionsResult);
-    } else {
-      let buildingAddress = request.buildingAddress;
-      processAddressMsg(request, sender, sendResponse, buildingAddress);
-      return true; // Asynchronous response will be given through gmaps calls!
-    }
+  if (request.source == 'popup') {
+    console.log("Here is the current directions Result: ");
+    console.log(directionsResult);
+    sendResponse(directionsResult);
+  } else {
+    let buildingAddress = request.buildingAddress;
+    processAddressMsg(request, sender, sendResponse, buildingAddress);
+    return true; // Asynchronous response will be given through gmaps calls!
   }
 }
 
