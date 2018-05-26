@@ -11,13 +11,13 @@ function draw_duration(duration_resp) {
 
 function report(buildingAddress, callback) {
   chrome.runtime.sendMessage(
-			{
-        buildingAddress: buildingAddress
-      },
-      function(response) {
-  		  console.log(response);
-		  }
-      //callback
+    {
+      'source': 'streateasy',
+      'buildingAddress': buildingAddress
+    },
+    function(response) {
+      console.log(response);
+    }
   );
 }
 
