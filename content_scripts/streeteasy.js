@@ -9,10 +9,10 @@ function draw_duration(duration_resp) {
   console.log("Duration of the trip is: " + duration);
 }
 
-function report(building_address, callback) {
+function report(buildingAddress, callback) {
   chrome.runtime.sendMessage(
 			{
-        building_address: building_address
+        buildingAddress: buildingAddress
       },
       function(response) {
   		  console.log(response);
@@ -26,12 +26,12 @@ function run() {
   console.log(infos);
 
   if (infos.length > 0) {
-    let building_info = infos[0];
-    let building_address = building_info.innerText;
-    console.log("Building info found: " + building_address);
+    let buildingInfo = infos[0];
+    let buildingAddress = buildingInfo.innerText;
+    console.log("Building info found: " + buildingAddress);
     // If we got here, we are on an apartments page or something, and found an
     // address to give.
-    report(building_address, draw_duration);
+    report(buildingAddress, draw_duration);
   } else {
     console.log("No building info found on page.");
     report(null, function() {});
