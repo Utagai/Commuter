@@ -4,20 +4,22 @@
 
 'use strict';
 
-console.log("Hello World?");
-let page = document.getElementById('buttonDiv');
-const kButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
-
-function constructOptions(kButtonColors) {
-  for (let item of kButtonColors) {
-    let button = document.createElement('button');
-    button.style.backgroundColor = item;
-    button.addEventListener('click', function() {
-      chrome.storage.sync.set({color: item}, function() {
-        console.log('color is ' + item);
-      })
-    });
-    page.appendChild(button);
-  }
+function addressChange(e) {
+  e.preventDefault();
+  console.log(e);
+  console.log(e.srcElement);
+  var formData = e.srcElement.children[0].value;
+  chrome.storage.sync.set({originAddress : formData}, function() {
+    console.log("Form data: " + formData);
+    chrome.runtime.sendMessage({
+      'source': "options",
+      'type': "newOriginAddress",
+      'newAddress': formData
+    },
+    function() { console.log("Sent new address message to bg."); });
+  })
+  return false;
 }
-constructOptions(kButtonColors);
+
+var addressForm = document.getElementById("addressForm");
+addressForm.addEventListener("submit", addressChange);

@@ -24,15 +24,26 @@ function dispatchMessage(request, sender, sendResponse) {
     sendResponse(directionsResult);
   } else {
     directionsResult = null; // Clear directions result if needed.
-    if (request.type == 'building') {
+    if (request.type == 'building') { // TODO Change equality to use ===
       let buildingAddress = request.addressInfo;
       processBuildingAddrMsg(request, sender, sendResponse, buildingAddress);
     } else if (request.type == 'listings') {
       let buildingAddresses = request.addressInfo;
       processListingsMsg(request, sender, sendResponse, buildingAddresses);
+    } else if (request.type == 'newOriginAddress') {
+      processNewOriginAddressMsg(request, sender);
+    } else {
+      var unknownErr = new Error("Could not recognize request type: "
+        + request.type);
+      throw unknownErr;
     }
     return true; // Asynchronous response will be given later.
   }
+}
+
+function processNewOriginAddressMsg(request, sender) {
+  console.log("Got a new origin message:");
+  console.log(request);
 }
 
 function processBuildingAddrMsg(request, sender, sendResponse, address) {
@@ -44,6 +55,7 @@ function processBuildingAddrMsg(request, sender, sendResponse, address) {
 function processListingsMsg(request, sender, sendResponse, addresses) {
   if (addresses.length > 0) {
     getDirectionsMultiple(addresses, sendResponse);
+    // TODO Remove this dead comment.
     //let numArticles = addresses.length;
     //sendResponse({
     //  'durations': [...Array(numArticles).keys()].map(function() {
