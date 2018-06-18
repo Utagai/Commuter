@@ -10,7 +10,6 @@ function addressChange(e) {
   console.log(e.srcElement);
   var newAddress = e.srcElement.children[0].value;
   var hint = e.srcElement.children[2].value;
-  console.log("Hint: " + hint);
   var formData = { 'address' : newAddress, 'hint' : hint };
   chrome.storage.sync.set(
     { 'destAddress' : formData, 'hint' : hint },

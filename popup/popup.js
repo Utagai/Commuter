@@ -5,8 +5,6 @@ var directionsDisplay;
 
 var map;
 
-var destIconUrl = "https://static.filehorse.com/icons/"
-  + "developer-tools/mongodb-icon-32.png";
 var kNoPathZoom = 15;
 var kPathZoom = 13;
 
@@ -77,7 +75,14 @@ function initMaps() {
   let marker = new google.maps.Marker(
     {
       position: destLatLng,
-      icon: destIconUrl,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 5,
+        fillColor: 'green',
+        fillOpacity: 0.7,
+        strokeColor: 'green',
+        strokeOpacity: 0.7
+      },
       map: map
     }
   );
@@ -89,10 +94,10 @@ function initDisplay() {
   directionsDisplay.setMap(map);
   directionsDisplay.setRouteIndex(0);
   directionsDisplay.setOptions({
-    'hideRouteList': true,
-    'draggable': false,
-    'suppressMarkers': true,
-    'suppressInfoWindows': true
+    hideRouteList: true,
+    draggable: false,
+    suppressMarkers: true,
+    suppressInfoWindows: true
   });
 }
 
