@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener(
 );
 
 function dispatchMessage(request, sender, sendResponse) {
-  if (request.source == 'popup') {
+  if (request.source === 'popup') {
     console.log("Here is the current directions Result: ");
     console.log(directionsResult);
     sendResponse(directionsResult);
