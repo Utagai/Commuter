@@ -13,7 +13,7 @@ function addressChange(e) {
     console.log("Form data: " + formData);
     chrome.runtime.sendMessage({
       'source': "options",
-      'type': "newOriginAddress",
+      'type': "newDestAddress",
       'newAddress': formData
     },
     function() { console.log("Sent new address message to bg."); });

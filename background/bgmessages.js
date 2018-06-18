@@ -30,8 +30,8 @@ function dispatchMessage(request, sender, sendResponse) {
     } else if (request.type == 'listings') {
       let buildingAddresses = request.addressInfo;
       processListingsMsg(request, sender, sendResponse, buildingAddresses);
-    } else if (request.type == 'newOriginAddress') {
-      processNewOriginAddressMsg(request, sender);
+    } else if (request.type == 'newDestAddress') {
+      processNewDestAddressMsg(request, sender);
     } else {
       var unknownErr = new Error("Could not recognize request type: "
         + request.type);
@@ -41,17 +41,17 @@ function dispatchMessage(request, sender, sendResponse) {
   }
 }
 
-function processNewOriginAddressMsg(request, sender) {
-  console.log("Got a new origin message:");
+function processNewDestAddressMsg(request, sender) {
+  console.log("Got a new dest message:");
   console.log(request);
   let address = request.newAddress;
   geocoder.geocode(
     { 'address': address },
     function(results, status) {
-      let originLatLng = getLatLngFromGeocodeResult(address, results, status);
+      let destLatLng = getLatLngFromGeocodeResult(address, results, status);
       console.log("Status: " + status);
-      console.log("Origin lat lng: " + JSON.stringify(originLatLng));
-      mongoLatLng = originLatLng;
+      console.log("Dest lat lng: " + JSON.stringify(destLatLng));
+      mongoLatLng = destLatLng;
       mongoAddr = address;
     }
   );
