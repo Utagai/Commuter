@@ -5,7 +5,7 @@ var directionsDisplay;
 
 var map;
 
-var mongoIconUrl = "https://static.filehorse.com/icons/"
+var destIconUrl = "https://static.filehorse.com/icons/"
   + "developer-tools/mongodb-icon-32.png";
 var kNoPathZoom = 15;
 var kPathZoom = 13;
@@ -70,14 +70,14 @@ function potentiallyUpdateMap() {
 
 function initMaps() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: mongoLatLng,
+    center: destLatLng,
     zoom: kNoPathZoom
   });
 
   let marker = new google.maps.Marker(
     {
-      position: mongoLatLng,
-      icon: mongoIconUrl,
+      position: destLatLng,
+      icon: destIconUrl,
       map: map
     }
   );

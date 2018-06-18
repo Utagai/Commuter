@@ -1,8 +1,8 @@
 'use strict';
 
-var mongoLatLng = { lat: 40.7627479, lng: -73.9872048 };
-var mongoAddr = "W 50th St, New York, NY";
-var mongoState = "NY";
+var destLatLng = { lat: 40.7627479, lng: -73.9872048 };
+var destAddr = "W 50th St, New York, NY";
+var destState = "NY";
 
 chrome.storage.sync.get(['destAddress', 'hint', 'destLatLng'],
   function(result) {
@@ -11,9 +11,9 @@ chrome.storage.sync.get(['destAddress', 'hint', 'destLatLng'],
       || result.hint === undefined) {
       return;
     } else {
-      mongoAddr = result.destAddress;
-      mongoLatLng = result.destLatLng;
-      mongoState = result.hint;
+      destAddr = result.destAddress;
+      destLatLng = result.destLatLng;
+      destState = result.hint;
     }
   }
 );

@@ -50,9 +50,9 @@ function processNewDestAddressMsg(request, sender) {
     { 'address': address },
     function(results, status) {
       let destLatLng = getLatLngFromGeocodeResult(address, results, status);
-      mongoLatLng = destLatLng;
-      mongoAddr = address;
-      mongoState = hint;
+      destLatLng = destLatLng;
+      destAddr = address;
+      destState = hint;
       chrome.storage.sync.set({ 'destLatLng' : destLatLng }, function() {
         console.log("Set the destLatLng to the new dest address.");
       });

@@ -39,7 +39,7 @@ function getDirectionsMultiple(addresses, sendResponse) {
 function getDirectionsCoords(latlng, ogAddress, sendResponse) {
   var request = {
     origin: new google.maps.LatLng(latlng.lat, latlng.lng),
-    destination: new google.maps.LatLng(mongoLatLng.lat, mongoLatLng.lng),
+    destination: new google.maps.LatLng(destLatLng.lat, destLatLng.lng),
     travelMode: 'TRANSIT'
   };
 
@@ -50,7 +50,7 @@ function getDirections(request, address, sendResponse) {
   let directionsResp = {
     'origin': request.origin,
     'address': address,
-    'dest': mongoLatLng
+    'dest': destLatLng
   };
 
   directions.route(request, function(result, status) {
