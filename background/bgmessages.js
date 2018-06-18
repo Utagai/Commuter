@@ -24,13 +24,13 @@ function dispatchMessage(request, sender, sendResponse) {
     sendResponse(directionsResult);
   } else {
     directionsResult = null; // Clear directions result if needed.
-    if (request.type == 'building') { // TODO Change equality to use ===
+    if (request.type === 'building') {
       let buildingAddress = request.addressInfo;
       processBuildingAddrMsg(request, sender, sendResponse, buildingAddress);
-    } else if (request.type == 'listings') {
+    } else if (request.type === 'listings') {
       let buildingAddresses = request.addressInfo;
       processListingsMsg(request, sender, sendResponse, buildingAddresses);
-    } else if (request.type == 'newDestAddress') {
+    } else if (request.type === 'newDestAddress') {
       processNewDestAddressMsg(request, sender);
     } else {
       var unknownErr = new Error("Could not recognize request type: "
