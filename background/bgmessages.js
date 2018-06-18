@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(
 
 function dispatchMessage(request, sender, sendResponse) {
   if (request.source === 'popup') {
-    console.log("Here is the current directions Result: ");
+    console.log("Current directions Result: ");
     console.log(directionsResult);
     sendResponse(directionsResult);
   } else {
@@ -49,12 +49,11 @@ function processNewDestAddressMsg(request, sender) {
   geocoder.geocode(
     { 'address': address },
     function(results, status) {
-      let destLatLng = getLatLngFromGeocodeResult(address, results, status);
-      destLatLng = destLatLng;
+      destLatLng = getLatLngFromGeocodeResult(address, results, status);
       destAddr = address;
       destState = hint;
       chrome.storage.sync.set({ 'destLatLng' : destLatLng }, function() {
-        console.log("Set the destLatLng to the new dest address.");
+        console.log("Set the new destLatLng as: " + JSON.stringify(destLatLng));
       });
     }
   );
