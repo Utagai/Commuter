@@ -44,6 +44,17 @@ function dispatchMessage(request, sender, sendResponse) {
 function processNewOriginAddressMsg(request, sender) {
   console.log("Got a new origin message:");
   console.log(request);
+  let address = request.newAddress;
+  geocoder.geocode(
+    { 'address': address },
+    function(results, status) {
+      let originLatLng = getLatLngFromGeocodeResult(address, results, status);
+      console.log("Status: " + status);
+      console.log("Origin lat lng: " + JSON.stringify(originLatLng));
+      mongoLatLng = originLatLng;
+      mongoAddr = address;
+    }
+  );
 }
 
 function processBuildingAddrMsg(request, sender, sendResponse, address) {
