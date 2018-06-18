@@ -44,13 +44,15 @@ function dispatchMessage(request, sender, sendResponse) {
 function processNewDestAddressMsg(request, sender) {
   console.log("Got a new dest message:");
   console.log(request);
-  let address = request.newAddress;
+  let address = request.newDest.address;
+  let hint = request.newDest.hint;
   geocoder.geocode(
     { 'address': address },
     function(results, status) {
       let destLatLng = getLatLngFromGeocodeResult(address, results, status);
       mongoLatLng = destLatLng;
       mongoAddr = address;
+      mongoState = hint;
       chrome.storage.sync.set({ 'destLatLng' : destLatLng }, function() {
         console.log("Set the destLatLng to the new dest address.");
       });
