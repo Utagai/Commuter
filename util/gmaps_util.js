@@ -1,8 +1,8 @@
 'use strict';
 
-var destLatLng = { lat: 40.7627479, lng: -73.9872048 };
-var destAddr = "W 50th St, New York, NY";
-var destState = "NY";
+var destLatLng;
+var destAddr;
+var destState;
 
 chrome.storage.sync.get(['destAddress', 'hint', 'destLatLng'],
   function(result) {
