@@ -49,10 +49,11 @@ function processNewDestAddressMsg(request, sender) {
     { 'address': address },
     function(results, status) {
       let destLatLng = getLatLngFromGeocodeResult(address, results, status);
-      console.log("Status: " + status);
-      console.log("Dest lat lng: " + JSON.stringify(destLatLng));
       mongoLatLng = destLatLng;
       mongoAddr = address;
+      chrome.storage.sync.set({ 'destLatLng' : destLatLng }, function() {
+        console.log("Set the destLatLng to the new dest address.");
+      });
     }
   );
 }

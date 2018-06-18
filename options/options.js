@@ -9,7 +9,7 @@ function addressChange(e) {
   console.log(e);
   console.log(e.srcElement);
   var formData = e.srcElement.children[0].value;
-  chrome.storage.sync.set({originAddress : formData}, function() {
+  chrome.storage.sync.set({ 'destAddress' : formData }, function() {
     console.log("Form data: " + formData);
     chrome.runtime.sendMessage({
       'source': "options",
@@ -17,7 +17,7 @@ function addressChange(e) {
       'newAddress': formData
     },
     function() { console.log("Sent new address message to bg."); });
-  })
+  });
   return false;
 }
 
