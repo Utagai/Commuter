@@ -7,12 +7,6 @@
  * @author may
  */
 
-chrome.runtime.onInstalled.addListener(function() {
-  console.log("Commute time extension loaded.");
-  console.log("Document?: " + document);
-  loadMapsAPI();
-});
-
 var apt_sites = ['streeteasy.com', 'apartments.com', 'zillow.com']
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -25,3 +19,6 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     actions: [new chrome.declarativeContent.ShowPageAction()]
   }]);
 });
+
+console.log("Commute time extension loaded.");
+loadMapsAPI();

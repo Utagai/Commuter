@@ -7,12 +7,12 @@
 
   "background": {
     "scripts": [
-      "background/bgmessages.js",
+      "keys.js",
       "background/bgmaps.js",
-      "background/background.js",
-      "background/directions.js",
       "util/gmaps_util.js",
-      "keys.js"
+      "background/bgmessages.js",
+      "background/background.js",
+      "background/directions.js"
     ],
     "persistent": false
   },
