@@ -6,11 +6,11 @@
 
 function addressChange(e) {
   e.preventDefault();
-  console.log(e);
-  console.log(e.srcElement);
   var newAddress = document.getElementById("address").value;
   var hint = document.getElementById("hint").value;
   var formData = { 'address' : newAddress, 'hint' : hint };
+  console.log("New address: " + newAddress);
+  console.log("Hint: " + hint);
   chrome.storage.sync.set(
     { 'destAddress' : formData, 'hint' : hint },
     function() {
@@ -28,4 +28,3 @@ function addressChange(e) {
 
 var addressForm = document.getElementById("addressForm");
 addressForm.addEventListener("submit", addressChange);
-console.log("Options page opened.");

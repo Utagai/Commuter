@@ -37,6 +37,7 @@ function getDirectionsMultiple(addresses, sendResponse) {
 }
 
 function getDirectionsCoords(latlng, ogAddress, sendResponse) {
+  console.log("Computing directions to: " + JSON.stringify(destLatLng));
   var request = {
     origin: new google.maps.LatLng(latlng.lat, latlng.lng),
     destination: new google.maps.LatLng(destLatLng.lat, destLatLng.lng),
