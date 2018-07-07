@@ -98,9 +98,9 @@ function updateMap(response) {
 
 /**
  * Fire a popup message to the background, in the off-chance that we may need to
- * update the map with new information. TODO: Rename this.
+ * update the map with new information.
  */
-function potentiallyUpdateMap() {
+function firePopupMessage() {
   console.log('Popup clicked!');
   chrome.runtime.sendMessage(
     {
@@ -149,7 +149,7 @@ function initGmaps() {
   initMaps();
   initDisplay();
 
-  potentiallyUpdateMap();
+  firePopupMessage();
 }
 /* eslint-disable no-unused-vars */
 
