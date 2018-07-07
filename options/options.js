@@ -1,30 +1,38 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
 
+/**
+ * An event-handling function for an address change made on the options page.
+ *
+ * Changes the address of the 'office' or whatever 'home' is in reference to the
+ * apartments found on sites.
+ *
+ * @param {event} e The event corresponding to the address information change.
+ * @return {boolean} Always returns false to avoid default form submission
+ *  behavior.
+ */
 function addressChange(e) {
   e.preventDefault();
-  var newAddress = document.getElementById("address").value;
-  var hint = document.getElementById("hint").value;
-  var formData = { 'address' : newAddress, 'hint' : hint };
-  console.log("New address: " + newAddress);
-  console.log("Hint: " + hint);
+  let newAddress = document.getElementById('address').value;
+  let hint = document.getElementById('hint').value;
+  let formData = {'address': newAddress, 'hint': hint};
+  console.log('New address: ' + newAddress);
+  console.log('Hint: ' + hint);
   chrome.storage.sync.set(
-    { 'destAddress' : formData, 'hint' : hint },
+    {'destAddress': formData, 'hint': hint},
     function() {
       chrome.runtime.sendMessage(
         {
-          'source': "options",
-          'type': "newDestAddress",
-          'newDest': formData
+          'source': 'options',
+          'type': 'newDestAddress',
+          'newDest': formData,
         },
-        function() { console.log("Sent new address message to bg."); }
+        function() {
+          console.log('Sent new address message to bg.');
+        }
       );
     });
   return false;
 }
 
-var addressForm = document.getElementById("addressForm");
-addressForm.addEventListener("submit", addressChange);
+let addressForm = document.getElementById('addressForm');
+addressForm.addEventListener('submit', addressChange);
