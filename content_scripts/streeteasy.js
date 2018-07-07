@@ -67,15 +67,15 @@ function injectCommuteTimes(response) {
  *
  * @return {string} A string representing the address of the listing.
  */
-function extractBuildingAddress() {
+function extractListingAddress() {
   let infos = document.getElementsByClassName('backend_data BuildingInfo-item');
   if (infos.length == 0) {
     return null;
   }
-  let buildingInfo = infos[0];
-  let buildingAddress = buildingInfo.innerText;
-  console.log('Building info found: ' + buildingAddress);
-  return buildingAddress;
+  let listingInfo = infos[0];
+  let listingAddress = listingInfo.innerText;
+  console.log('Listing info found: ' + listingAddress);
+  return listingAddress;
 }
 
 /**
@@ -97,11 +97,11 @@ function extractArticleTitles() {
 }
 
 /**
- * Extracts the building addresses from a series of article titles.
+ * Extracts the listing addresses from a series of article titles.
  *
- * @return {array} A series of building addresses that were extracted.
+ * @return {array} A series of listing addresses that were extracted.
  */
-function extractBuildingAddresses() {
+function extractListingAddresses() {
   let listingsContainer = document.getElementsByClassName('left-two-thirds '
     + 'items item-rows listings');
   if (listingsContainer.length == 0) {
@@ -115,16 +115,16 @@ function extractBuildingAddresses() {
 /**
  * Reports the extracted information gleaned from the listing (singular) page.
  *
- * @param {string} buildingAddress The address string of the listing.
+ * @param {string} listingAddress The address string of the listing.
  * @param {function} callback Call back function to call once the directions for
- *  the given buildingAddress has been computed.
+ *  the given listingAddress has been computed.
  */
-function reportBuildingPage(buildingAddress, callback) {
+function reportListingPage(listingAddress, callback) {
   chrome.runtime.sendMessage(
     {
       'source': 'streateasy',
-      'type': 'building',
-      'addressInfo': buildingAddress,
+      'type': 'listing',
+      'addressInfo': listingAddress,
     },
     callback
   );
@@ -133,17 +133,17 @@ function reportBuildingPage(buildingAddress, callback) {
 /**
  * Reports the extracted information gleaned from the listings (plural) page.
  *
- * @param {array} buildingAddresses An array of all building addresses found on
+ * @param {array} listingAddresses An array of all listing addresses found on
  *  listings page.
  * @param {function} callback The callback function to call once the directions
- *  for the various building addresses have been computed.
+ *  for the various listing addresses have been computed.
  */
-function reportListingsPage(buildingAddresses, callback) {
+function reportListingsPage(listingAddresses, callback) {
   chrome.runtime.sendMessage(
     {
       'source': 'streateasy',
       'type': 'listings',
-      'addressInfo': buildingAddresses,
+      'addressInfo': listingAddresses,
     },
     callback
   );
@@ -153,17 +153,17 @@ function reportListingsPage(buildingAddresses, callback) {
  * The entry point for this content-script to run on StreetEasy URLs.
  */
 function run() {
-  let buildingAddress = extractBuildingAddress();
-  if (buildingAddress) {
-    console.log('Found a building page!');
-    reportBuildingPage(buildingAddress, injectCommuteTime);
+  let listingAddress = extractListingAddress();
+  if (listingAddress) {
+    console.log('Found a listing page!');
+    reportListingPage(listingAddress, injectCommuteTime);
   } else {
-    let buildingAddresses = extractBuildingAddresses();
-    console.log(buildingAddresses);
-    if (buildingAddresses.length > 0) {
-      reportListingsPage(buildingAddresses, injectCommuteTimes);
+    let listingAddresses = extractListingAddresses();
+    console.log(listingAddresses);
+    if (listingAddresses.length > 0) {
+      reportListingsPage(listingAddresses, injectCommuteTimes);
     } else {
-      console.log('Not a building or listings page.');
+      console.log('Not a listing or listings page.');
     }
   }
 }

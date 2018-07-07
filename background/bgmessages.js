@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(
  * @param {string} request.source The location of the extension from which the
  *  message was received.
  * @param {string} request.type The kind of information contained in the
- *  message (building, listings, etc).
+ *  message (listing, listings, etc).
  * @param {object} sender The sender of the message.
  * @param {function} sendResponse A callback for the sender.
  * @return {boolean} signifying to Chrome that the response will be sent async.
@@ -37,12 +37,12 @@ function dispatchMessage(request, sender, sendResponse) {
     sendResponse(directionsResult);
   } else {
     directionsResult = null; // Clear directions result if needed.
-    if (request.type === 'building') {
-      let buildingAddress = request.addressInfo;
-      processBuildingAddrMsg(request, sender, sendResponse, buildingAddress);
+    if (request.type === 'listing') {
+      let listingAddress = request.addressInfo;
+      processListingAddrMsg(request, sender, sendResponse, listingAddress);
     } else if (request.type === 'listings') {
-      let buildingAddresses = request.addressInfo;
-      processListingsMsg(request, sender, sendResponse, buildingAddresses);
+      let listingAddresses = request.addressInfo;
+      processListingsMsg(request, sender, sendResponse, listingAddresses);
     } else if (request.type === 'newDestAddress') {
       processNewDestAddressMsg(request, sender);
     } else {
@@ -88,9 +88,9 @@ function processNewDestAddressMsg(request, sender) {
  * @param {object} request The request message.
  * @param {object} sender The sender of the message.
  * @param {function} sendResponse A callback for the sender.
- * @param {string} address The address of the building in question.
+ * @param {string} address The address of the listing in question.
  */
-function processBuildingAddrMsg(request, sender, sendResponse, address) {
+function processListingAddrMsg(request, sender, sendResponse, address) {
   if (address) {
     geocodeAddress(address, sendResponse);
   } else {/* Ignore this message. */}
@@ -103,7 +103,7 @@ function processBuildingAddrMsg(request, sender, sendResponse, address) {
  * @param {object} request The request message.
  * @param {object} sender The sender of the message.
  * @param {function} sendResponse A callback for the sender.
- * @param {array} addresses The address of the building in question.
+ * @param {array} addresses The address of the listing in question.
  */
 function processListingsMsg(request, sender, sendResponse, addresses) {
   if (addresses.length > 0) {
