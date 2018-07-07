@@ -108,7 +108,7 @@ function extractBuildingAddresses() {
     return [];
   }
   return extractArticleTitles().map(function(articleTitle) {
-    return findTitleTag(articleTitle).innerText + ', ' + hint;
+    return findTitleTag(articleTitle).innerText + ', ' + destState;
   });
 }
 
