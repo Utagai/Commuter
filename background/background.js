@@ -7,18 +7,16 @@
  * @author may
  */
 
-var apt_sites = ['streeteasy.com', 'apartments.com', 'zillow.com']
+const aptSites = ['streeteasy.com', 'apartments.com', 'zillow.com'];
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
   chrome.declarativeContent.onPageChanged.addRules([{
-    conditions: apt_sites.map(x =>
-      new chrome.declarativeContent.PageStateMatcher({
-				pageUrl: { hostSuffix: x }
-			})
+    conditions: aptSites.map((x) =>
+      new chrome.declarativeContent.PageStateMatcher({pageUrl: {hostSuffix: x}})
     ),
-    actions: [new chrome.declarativeContent.ShowPageAction()]
+    actions: [new chrome.declarativeContent.ShowPageAction()],
   }]);
 });
 
-console.log("Commute time extension loaded.");
+console.log('Commute time extension loaded.');
 loadMapsAPI();
