@@ -1,7 +1,7 @@
 'use strict';
 
-const geocoder = undefined;
-const directions = undefined;
+let geocoder;
+let directions;
 
 /** Initializes Google Maps API objects (geocoder, directions). */
 function initGmaps() { // eslint-disable-line no-unused-vars
