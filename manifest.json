@@ -20,7 +20,11 @@
   "content_scripts": [
     {
       "matches": ["https://*.streeteasy.com/*"],
-      "js": ["util/gmaps_util.js", "content_scripts/streeteasy.js"]
+      "js": [
+        "util/gmaps_util.js",
+        "content_scripts/apt_site.js",
+        "content_scripts/streeteasy.js"
+      ]
     },
     {
       "matches": ["https://*.apartments.com/*"],
