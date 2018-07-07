@@ -99,16 +99,16 @@ function getDirections(request, address, sendResponse) {
     'dest': destLatLng,
   };
 
-  directions.route(request, function(result, status) {
-    if (status == 'OK') {
+  directions.route(request, function(result, statusStr) {
+    if (statusStr == 'OK') {
       console.log('Got a response from directions API:');
       console.log(result);
       directionsResult = result;
       directionsResp.duration = result.routes[0].legs[0].duration.text;
       directionsResp.gmapsRes = result;
     } else {
-      console.log('Failed to get directions due to: \'' + status + '\'.');
-      if (status == 'ZERO_RESULTS') {
+      console.log('Failed to get directions due to: \'' + statusStr + '\'.');
+      if (statusStr == 'ZERO_RESULTS') {
         console.log('ZERO results found! Giving a nullish resp.');
         directionsResp.duration = 'N/A';
         directionsResp.gmapsRes = null;
@@ -125,17 +125,17 @@ function getDirections(request, address, sendResponse) {
  * @param {string} ogAddress The address string for which to produce a LatLng
  *  object.
  * @param {array} results The results sent back by GMaps geocode for ogAddress.
- * @param {string} status The status of the GMaps geocode request that gave
+ * @param {string} statusStr The status of the GMaps geocode request that gave
  *  these results.
  * @return {object} Hopefully, the latlng object corresponding to ogAddress.
  */
-function getLatLngFromGeocodeResult(ogAddress, results, status) {
+function getLatLngFromGeocodeResult(ogAddress, results, statusStr) {
   let latlng = {
     'address': ogAddress,
-    'valid': status == 'OK',
+    'valid': statusStr == 'OK',
   };
 
-  if (status == 'OK') {
+  if (statusStr == 'OK') {
     latlng.lat = results[0].geometry.location.lat();
     latlng.lng = results[0].geometry.location.lng();
   } else {/* Do nothing */}
@@ -151,16 +151,16 @@ function getLatLngFromGeocodeResult(ogAddress, results, status) {
  *  GMaps geocode request.
  * @param {boolean} latlng.valid Whether or not the Geocode result gave us a
  *  successful lat-lng result.
- * @param {string} status The status of the GMaps geocode request.
+ * @param {string} statusStr The status of the GMaps geocode request.
  * @return {string} A message concerning the result of our Geocode request.
  */
-function createGeocodeMsg(latlng, status) {
+function createGeocodeMsg(latlng, statusStr) {
   if (latlng.valid) {
     return 'Geocode computed for ' + latlng.address + ': '
       + JSON.stringify(latlng);
   } else {
     return 'Geocode request for address: ' + latlng.address
-      + ' failed due to \'' + status + '\'.';
+      + ' failed due to \'' + statusStr + '\'.';
   }
 }
 
@@ -173,9 +173,9 @@ function createGeocodeMsg(latlng, status) {
  */
 function geocodeAddress(address, sendResponse) {
   geocoder.geocode({'address': address},
-      function(results, status) {
-        let latlng = getLatLngFromGeocodeResult(address, results, status);
-        let geocodeMsg = createGeocodeMsg(latlng, status);
+      function(results, statusStr) {
+        let latlng = getLatLngFromGeocodeResult(address, results, statusStr);
+        let geocodeMsg = createGeocodeMsg(latlng, statusStr);
         console.log(geocodeMsg);
         getDirectionsCoords(latlng, address, sendResponse);
       }
