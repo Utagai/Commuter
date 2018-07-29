@@ -25,8 +25,7 @@ class StreetEasy extends ApartmentSite {
       let duration = response.duration;
       let titleElems = document.getElementsByClassName('incognito');
       for (let i = 0; i < titleElems.length; i++) {
-        titleElems[i].innerText = titleElems[i].innerText
-          + ' (' + duration + ')';
+        titleElems[i].innerText += createDurationSuffix(duration);
       }
     }
   }
@@ -68,7 +67,7 @@ class StreetEasy extends ApartmentSite {
       let articleTitles = StreetEasy.extractArticleTitles();
       for (let i = 0; i < durations.length; i++) {
         let titleTag = StreetEasy.findTitleTag(articleTitles[i]);
-        titleTag.innerText = '(' + durations[i] + ') ' + titleTag.innerText;
+        titleTag.innerText += createDurationSuffix(durations[i]);
         console.log('Title tag:');
         console.log(titleTag);
       }
