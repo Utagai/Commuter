@@ -143,3 +143,24 @@ function reportListingsPage(listingAddresses, source) {
     source.injectCommuteTimes
   );
 }
+
+/**
+ * A very simple helper function that wraps a given duration in parentheticals.
+ *
+ * This function prepends the starting parentheses with a whitespace, since
+ * this wrapped duration string is expected to be concatenated to a larger
+ * string.
+ *
+ * In the conclusion of this function, a suffix for duration of a
+ * commute route will be made and returned.
+ *
+ * e.g.
+ *  Given: '43 min'
+ *  Returned: ' (43 min)'
+ *
+ * @param {string} duration A string representing the duration.
+ * @return {string} Defined as: ' (' + duration + ')'
+ */
+function createDurationSuffix(duration) {
+  return ' (' + duration + ')';
+}
