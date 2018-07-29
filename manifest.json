@@ -28,7 +28,10 @@
     },
     {
       "matches": ["https://*.apartments.com/*"],
-      "js": ["content_scripts/apartments.js"]
+      "js": [
+        "content_scripts/apt_site.js",
+        "content_scripts/apartments.js"
+      ]
     },
     {
       "matches": ["https://*.zillow.com/*"],
