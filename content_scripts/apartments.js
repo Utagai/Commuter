@@ -81,3 +81,15 @@ function injectCommuteTime(response) {
     listingTitle.innerText += createDurationSuffix(duration);
   }
 }
+
+extractListingAddresses();
+injectCommuteTimes(function() {
+  let numDurations = 25;
+  durations = [];
+  for (let i = 0; i < numDurations; i++) {
+    durations.push(Math.floor(Math.random() * Math.floor(60)) + ' mins');
+  }
+  return {'durations': durations};
+}());
+extractListingAddress();
+injectCommuteTime({'duration': '43 min'});
