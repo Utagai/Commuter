@@ -65,3 +65,19 @@ function injectCommuteTimes(response) {
     }
   }
 }
+
+/**
+ * Injects commute times into the StreetEasy listing page.
+ *
+ * @param {object} response The result response from which to get the
+ *  duration.
+ */
+function injectCommuteTime(response) {
+  if (response) {
+    console.log('Got response:');
+    console.log(response);
+    let duration = response.duration;
+    let listingTitle = document.getElementsByClassName('propertyName')[0];
+    listingTitle.innerText += createDurationSuffix(duration);
+  }
+}
