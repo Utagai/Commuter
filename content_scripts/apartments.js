@@ -45,3 +45,23 @@ function extractListingAddress() {
   console.log('Address of the current unit: ' + address);
   return address;
 }
+
+/**
+ * Injects multiple commute times into the StreetEasy listings (plural) page.
+ *
+ * See injectCommuteTime(response) for more information.
+ *
+ * @param {object} response The response containing the durations for all the
+ *  listings in the page.
+ */
+function injectCommuteTimes(response) {
+  if (response) {
+    console.log('Got response:');
+    console.log(response);
+    let durations = response.durations;
+    let titleElems = document.getElementsByClassName('placardTitle');
+    for (let i = 0; i < durations.length; i++) {
+      titleElems[i].innerText += createDurationSuffix(durations[i]);
+    }
+  }
+}
