@@ -106,15 +106,20 @@ function getDirections(request, address, sendResponse) {
       directionsResult = result;
       directionsResp.duration = result.routes[0].legs[0].duration.text;
       directionsResp.gmapsRes = result;
+      sendResponse(directionsResp);
     } else {
-      console.log('Failed to get directions due to: \'' + statusStr + '\'.');
+      console.log('Failed to get directions due to: "' + statusStr + '".');
       if (statusStr == 'ZERO_RESULTS') {
-        console.log('ZERO results found! Giving a nullish resp.');
-        directionsResp.duration = 'N/A';
+        console.log('ZERO results found! Giving a "Not Available" response.');
+        directionsResp.duration = 'Not Available';
         directionsResp.gmapsRes = null;
+        sendResponse(directionsResp);
+      } else if (statusStr == 'OVER_QUERY_LIMIT') {
+        console.log('Reached query limit, retrying in 500 ms.');
+        setTimeout(getDirections, 500, request, address, sendResponse);
+        return;
       }
     }
-    sendResponse(directionsResp);
   });
 }
 
@@ -160,7 +165,7 @@ function createGeocodeMsg(latlng, statusStr) {
       + JSON.stringify(latlng);
   } else {
     return 'Geocode request for address: ' + latlng.address
-      + ' failed due to \'' + statusStr + '\'.';
+      + ' failed due to "' + statusStr + '".';
   }
 }
 
@@ -174,6 +179,12 @@ function createGeocodeMsg(latlng, statusStr) {
 function geocodeAddress(address, sendResponse) {
   geocoder.geocode({'address': address},
       function(results, statusStr) {
+        console.log('For address: ' + address + ' got statusStr: ' + statusStr);
+        if (statusStr == 'OVER_QUERY_LIMIT') {
+          console.log('Reached query limit, retrying in 500 ms.');
+          setTimeout(geocodeAddress, 500, address, sendResponse);
+          return;
+        }
         let latlng = getLatLngFromGeocodeResult(address, results, statusStr);
         let geocodeMsg = createGeocodeMsg(latlng, statusStr);
         console.log(geocodeMsg);

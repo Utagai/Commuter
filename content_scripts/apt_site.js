@@ -75,13 +75,37 @@ class ApartmentSite {
    *
    * @param {object} response The response containing the durations for all the
    *  listings in the page.
+   * @param {number} i The ith listing for which the response pertains to.
    * @throws {FunctionNotDefined} This function will throw a FunctionNotDefined
    * error if it is called directly as a function of ApartmentSite or by one of
    * its children classes if they have not overridden this function with their
    * own implementation.
    */
-  injectCommuteTimes(response) {
+  injectCommuteTimes(response, i) {
     throw FunctionNotDefined;
+  }
+
+  /**
+   * Extracts listing address(es) and reports its findings to the backend for
+   * processing.
+   *
+   * @param {object} site The ApartmentSite subclass object that is responsible
+   *  for _run()'s logic.
+   */
+  _run(site) {
+    let listingAddress = site.extractListingAddress();
+    if (listingAddress) {
+      console.log('Found a listing page!');
+      reportListingPage(listingAddress, site);
+    } else {
+      let listingAddresses = site.extractListingAddresses();
+      console.log(listingAddresses);
+      if (listingAddresses.length > 0) {
+        reportListingsPage(listingAddresses, site);
+      } else {
+        console.log('Not a listing or listings page.');
+      }
+    }
   }
 
   /**
@@ -91,21 +115,12 @@ class ApartmentSite {
    *
    * This function should essentially be the entry point for the respective
    * content script for the apartment site that this object represents.
+   *
+   * This function initializes the destination global variables and then calls
+   * _run() as a callback, which does the actual driving of the application.
    */
   run() {
-    let listingAddress = this.extractListingAddress();
-    if (listingAddress) {
-      console.log('Found a listing page!');
-      reportListingPage(listingAddress, this);
-    } else {
-      let listingAddresses = this.extractListingAddresses();
-      console.log(listingAddresses);
-      if (listingAddresses.length > 0) {
-        reportListingsPage(listingAddresses, this);
-      } else {
-        console.log('Not a listing or listings page.');
-      }
-    }
+    setDestGlobals(this, this._run);
   }
 }
 
@@ -134,14 +149,29 @@ function reportListingPage(listingAddress, source) {
  * @param {string} source Denotes the source apartment site of this message.
  */
 function reportListingsPage(listingAddresses, source) {
-  chrome.runtime.sendMessage(
-    {
-      'source': source.siteName,
-      'type': 'listings',
-      'addressInfo': listingAddresses,
-    },
-    source.injectCommuteTimes
-  );
+  for (let i = 0; i < listingAddresses.length; i++) {
+    /**
+     * A local decorating function that wraps around injectCommuteTimes() of an
+     * apartment site subclass. This fills-in the value of 'i' to the
+     * injectCommuteTimes() call so that the correct duration string is
+     * injected for each listing.
+     *
+     * @param {object} response The result response from which to get the
+     *  duration.
+     */
+    function injectIthCommuteTime(response) {
+      source.injectCommuteTimes(response, i);
+    }
+
+    chrome.runtime.sendMessage(
+      {
+        'source': source.siteName,
+        'type': 'listing',
+        'addressInfo': listingAddresses[i],
+      },
+      injectIthCommuteTime
+    );
+  }
 }
 
 /**
