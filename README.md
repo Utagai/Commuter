@@ -21,9 +21,7 @@ Your `keys.js` file should look like:
 
 'use keys';
 
-/* eslint-disable no-unused-vars */
 const gmapsKey = '<YOUR_KEY_HERE>';
-/* eslint-disable no-unused-vars */
 ```
 
 ## Extending this
