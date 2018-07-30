@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log('Got a request from somewhere:');
     console.log(request);
-    return dispatchMessage(request, sender, sendResponse);
+    return handleMessage(request, sender, sendResponse);
   }
 );
 
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(
  * @param {function} sendResponse A callback for the sender.
  * @return {boolean} signifying to Chrome that the response will be sent async.
  */
-function dispatchMessage(request, sender, sendResponse) {
+function handleMessage(request, sender, sendResponse) {
   if (request.source === 'popup') {
     console.log('Current directions Result: ');
     console.log(directionsResult);
@@ -40,9 +40,6 @@ function dispatchMessage(request, sender, sendResponse) {
     if (request.type === 'listing') {
       let listingAddress = request.addressInfo;
       processListingAddrMsg(request, sender, sendResponse, listingAddress);
-    } else if (request.type === 'listings') {
-      let listingAddresses = request.addressInfo;
-      processListingsMsg(request, sender, sendResponse, listingAddresses);
     } else if (request.type === 'newDestAddress') {
       processNewDestAddressMsg(request, sender);
     } else {
@@ -93,20 +90,5 @@ function processNewDestAddressMsg(request, sender) {
 function processListingAddrMsg(request, sender, sendResponse, address) {
   if (address) {
     geocodeAddress(address, sendResponse);
-  } else {/* Ignore this message. */}
-}
-
-/**
- * Dispatches a message to the relevant message handling function for
- * processing.
- *
- * @param {object} request The request message.
- * @param {object} sender The sender of the message.
- * @param {function} sendResponse A callback for the sender.
- * @param {array} addresses The address of the listing in question.
- */
-function processListingsMsg(request, sender, sendResponse, addresses) {
-  if (addresses.length > 0) {
-    getDirectionsMultiple(addresses, sendResponse);
   } else {/* Ignore this message. */}
 }
