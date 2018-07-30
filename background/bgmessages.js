@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(
  * @param {string} request.source The location of the extension from which the
  *  message was received.
  * @param {string} request.type The kind of information contained in the
- *  message (listing, listings, etc).
+ *  message (listing, newDestAddress etc).
  * @param {object} sender The sender of the message.
  * @param {function} sendResponse A callback for the sender.
  * @return {boolean} signifying to Chrome that the response will be sent async.
