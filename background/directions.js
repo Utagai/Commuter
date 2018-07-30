@@ -1,70 +1,5 @@
 'use strict';
 
-/* eslint-disable no-unused-vars */
-/**
- * Gets commute times for multiple buildling addresses.
- *
- * @param {array} addresses The addresses for which to find commute times.
- * @param {callback} sendResponse The callback to call once this is done.
- */
-function getDirectionsMultiple(addresses, sendResponse) {
-  /* eslint-enable no-unused-vars */
-  let addressesResults = {};
-
-  /**
-   * Saves the result into the addressesResults map when calle.d
-   *
-   * @param {object} result The result object, containing address and commute
-   *  duration.
-   */
-  function saveResult(result) {
-    console.log('Saving result for latlng: ' + JSON.stringify(result.origin));
-    addressesResults[result.address] = result.duration;
-  }
-
-  /**
-   * Computes directions (commute time) for the ith address.
-   *
-   * @param {number} i The ith address for which to compute directions.
-   */
-  function computeDirections(i) {
-    if (i >= addresses.length) {
-      return;
-    }
-    console.log('Computing directions for address: '
-      + JSON.stringify(addresses[i]));
-    geocodeAddress(addresses[i], saveResult);
-    setTimeout(function() {
-      computeDirections(i+1);
-    }, 650);
-  }
-  computeDirections(0);
-
-  /**
-   * Stalls until all addresses have been computed, and if so, then crafts a
-   * response and sends a response using sendResponse().
-   */
-  function waitForDirections() {
-    if (Object.keys(addressesResults).length != addresses.length) {
-      console.log('Waiting again...');
-      setTimeout(waitForDirections, 100);
-    } else {
-      console.log('All directions computed: ');
-      console.log(addressesResults);
-      let resp = {
-        'durations': addresses.map(function(address) {
-          return addressesResults[address];
-        }),
-        'gmapsRes': addressesResults,
-      };
-      console.log(resp);
-      sendResponse(resp);
-    }
-  }
-
-  waitForDirections();
-}
-
 /**
  * Gets directions for a Lat-Lng object.
  *
@@ -169,6 +104,7 @@ function createGeocodeMsg(latlng, statusStr) {
   }
 }
 
+/* eslint-disable no-unused-vars */
 /**
  * Geocodes a given address string.
  *
@@ -192,3 +128,4 @@ function geocodeAddress(address, sendResponse) {
       }
   );
 }
+/* eslint-enable no-unused-vars */
