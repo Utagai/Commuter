@@ -7,6 +7,25 @@ This was made because I am lazy and also happen to enjoy programming. Whatever.
 
 **This is a work-in-progress.**
 
+## Using this
+If you are crazy enough to want to use this stupid thing, then you'll have to
+get your own fresh pair of credentials/keys from Google Cloud Platform. You'll
+need to get a key that has the Directions API, Maps API and Geocoding API all
+activated. Then, put this into a `keys.js` file at the root level of this
+extension.
+
+Your `keys.js` file should look like:
+
+```
+# keys.js
+
+'use keys';
+
+/* eslint-disable no-unused-vars */
+const gmapsKey = '<YOUR_KEY_HERE>';
+/* eslint-disable no-unused-vars */
+```
+
 ## Screenshots
 ### Show commute times on apartment pages
 ![Show commute times on apartment pages][Apt Page Commute Time]
