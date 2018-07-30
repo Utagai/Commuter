@@ -128,16 +128,16 @@ class ApartmentSite {
  * Reports the extracted information gleaned from the listing (singular) page.
  *
  * @param {string} listingAddress The address string of the listing.
- * @param {string} source Denotes the source apartment site of this message.
+ * @param {string} site Denotes the source apartment site of this message.
  */
-function reportListingPage(listingAddress, source) {
+function reportListingPage(listingAddress, site) {
   chrome.runtime.sendMessage(
     {
-      'source': source.siteName,
+      'site': site.siteName,
       'type': 'listing',
       'addressInfo': listingAddress,
     },
-    source.injectCommuteTime
+    site.injectCommuteTime
   );
 }
 
@@ -146,9 +146,9 @@ function reportListingPage(listingAddress, source) {
  *
  * @param {array} listingAddresses An array of all listing addresses found on
  *  listings page.
- * @param {string} source Denotes the source apartment site of this message.
+ * @param {string} site Denotes the source apartment site of this message.
  */
-function reportListingsPage(listingAddresses, source) {
+function reportListingsPage(listingAddresses, site) {
   for (let i = 0; i < listingAddresses.length; i++) {
     /**
      * A local decorating function that wraps around injectCommuteTimes() of an
@@ -160,12 +160,12 @@ function reportListingsPage(listingAddresses, source) {
      *  duration.
      */
     function injectIthCommuteTime(response) {
-      source.injectCommuteTimes(response, i);
+      site.injectCommuteTimes(response, i);
     }
 
     chrome.runtime.sendMessage(
       {
-        'source': source.siteName,
+        'site': site.siteName,
         'type': 'listing',
         'addressInfo': listingAddresses[i],
       },

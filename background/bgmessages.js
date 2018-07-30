@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener(
  * processing.
  *
  * @param {object} request The request message.
- * @param {string} request.source The location of the extension from which the
+ * @param {string} request.site The location of the extension from which the
  *  message was received.
  * @param {string} request.type The kind of information contained in the
  *  message (listing, newDestAddress etc).
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(
  * @return {boolean} signifying to Chrome that the response will be sent async.
  */
 function handleMessage(request, sender, sendResponse) {
-  if (request.source === 'popup') {
+  if (request.site === 'popup') {
     console.log('Current directions Result: ');
     console.log(directionsResult);
     sendResponse(directionsResult);

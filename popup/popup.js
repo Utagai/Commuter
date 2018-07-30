@@ -104,7 +104,7 @@ function firePopupMessage() {
   console.log('Popup clicked!');
   chrome.runtime.sendMessage(
     {
-      'source': 'popup',
+      'site': 'popup',
     },
     updateMap
   );

@@ -22,7 +22,7 @@ function addressChange(e) {
     function() {
       chrome.runtime.sendMessage(
         {
-          'source': 'options',
+          'site': 'options',
           'type': 'newDestAddress',
           'newDest': formData,
         },
