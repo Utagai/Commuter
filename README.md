@@ -1,4 +1,4 @@
-# Commuter (?)
+# Commuter
 
 Stupid chrome extension for displaying commute route and time of an apartment
 listing on sites like StreetEasy, Apartments.com, and Zillow.
