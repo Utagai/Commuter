@@ -29,6 +29,7 @@
     {
       "matches": ["https://*.apartments.com/*"],
       "js": [
+        "util/gmaps_util.js",
         "content_scripts/apt_site.js",
         "content_scripts/apartments.js"
       ]

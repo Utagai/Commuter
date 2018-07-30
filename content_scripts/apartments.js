@@ -68,16 +68,15 @@ class Apartments extends ApartmentSite {
    *
    * @param {object} response The response containing the durations for all the
    *  listings in the page.
+   * @param {number} i The ith listing for which the response pertains to.
    */
-  injectCommuteTimes(response) {
+  injectCommuteTimes(response, i) {
     if (response) {
       console.log('Got response:');
       console.log(response);
-      let durations = response.durations;
+      let duration = response.duration;
       let titleElems = document.getElementsByClassName('placardTitle');
-      for (let i = 0; i < durations.length; i++) {
-        titleElems[i].innerText += createDurationSuffix(durations[i]);
-      }
+      titleElems[i].innerText += createDurationSuffix(duration);
     }
   }
 
