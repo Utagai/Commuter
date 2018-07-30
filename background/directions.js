@@ -36,7 +36,7 @@ function getDirectionsMultiple(addresses, sendResponse) {
     geocodeAddress(addresses[i], saveResult);
     setTimeout(function() {
       computeDirections(i+1);
-    }, 350);
+    }, 650);
   }
   computeDirections(0);
 
