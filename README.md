@@ -5,8 +5,6 @@ listing on sites like StreetEasy, Apartments.com, and Zillow.
 
 This was made because I am lazy and also happen to enjoy programming. Whatever.
 
-**This is a work-in-progress.**
-
 ## Using this
 If you are crazy enough to want to use this stupid thing, then you'll have to
 get your own fresh pair of credentials/keys from Google Cloud Platform. You'll
